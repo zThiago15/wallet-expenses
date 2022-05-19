@@ -4,7 +4,7 @@ export const actionEmail = (email) => ({
   email,
 });
 
-export const actionWallet = (wallet) => ({
+export const actionWallet = (currencies) => ({
   type: 'USER_WALLET',
-  wallet,
+  currencies,
 });
