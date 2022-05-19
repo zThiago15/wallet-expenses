@@ -4,7 +4,7 @@ export const actionEmail = (email) => ({
   email,
 });
 
-export const actionWallet = (currencies) => ({
+export const actionCurrencies = (currencies) => ({
   type: 'USER_WALLET',
   currencies,
 });
@@ -22,9 +22,14 @@ export function fetchCurrencies() {
 
       // Removing USTD currency
       const newCurrencies = currencies.filter((currency) => currency !== 'USDT');
-      return dispatch(actionWallet(newCurrencies));
+      return dispatch(actionCurrencies(newCurrencies));
     } catch (error) {
       return dispatch(failedRequestAPI(error));
     }
   };
 }
+
+export const actionExpense = (expenses) => ({
+  type: 'USER_EXPENSE',
+  expenses,
+});

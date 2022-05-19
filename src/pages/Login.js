@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { actionEmail } from '../actions';
 import PropTypes from 'prop-types';
+import { actionEmail } from '../actions';
 
 class Login extends React.Component {
   state = {
@@ -58,7 +58,7 @@ class Login extends React.Component {
         <button
           type="button"
           disabled={ this.validation() }
-          onClick={ () => { emailDispatch(email); return history.push('/carteira'); }}
+          onClick={ () => { emailDispatch(email); return history.push('/carteira'); } }
         >
           Entrar
         </button>
