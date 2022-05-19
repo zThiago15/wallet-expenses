@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { actionEmail } from '../actions';
+import PropTypes from 'prop-types';
 
 class Login extends React.Component {
   state = {
@@ -65,6 +66,11 @@ class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = {
+  emailDispatch: PropTypes.func,
+  history: PropTypes.func,
+}.isRequired;
 
 const mapDispatchToProps = (dispatch) => ({
   emailDispatch: (email) => dispatch(actionEmail(email)),
