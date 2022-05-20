@@ -91,7 +91,7 @@ class Wallet extends React.Component {
         <header>
           <h1 data-testid="email-field">{ email }</h1>
           <span>Despesa total</span>
-          <p data-testid="total-field">{ total.toFixed(2) }</p>
+          <p data-testid="total-field">{ total && total.toFixed(2) }</p>
           <p data-testid="header-currency-field">BRL</p>
         </header>
         <form>
@@ -167,6 +167,22 @@ class Wallet extends React.Component {
 
           <button type="submit" onClick={ this.saveExpense }>Adicionar despesa</button>
         </form>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Tag</th>
+              <th>Método de pagamento</th>
+              <th>Valor</th>
+              <th>Moeda</th>
+              <th>Câmbio utilizado</th>
+              <th>Valor convertido</th>
+              <th>Moeda de conversão</th>
+              <th>Editar/Excluir</th>
+            </tr>
+          </thead>
+        </table>
       </>
 
     );
