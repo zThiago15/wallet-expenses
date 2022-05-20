@@ -3,6 +3,7 @@
 const initialState = {
   currencies: [],
   expenses: [],
+  total: 0,
 };
 
 const walletReducer = (state = initialState, action) => {
@@ -12,7 +13,10 @@ const walletReducer = (state = initialState, action) => {
   case 'FAILED_REQUEST':
     return { ...state, error: action.payload };
   case 'USER_EXPENSE':
-    return { ...state, expenses: [...state.expenses, action.expenses] };
+    return {
+      ...state,
+      expenses: [...state.expenses, action.expenses],
+      total: Number(action.total) };
   default:
     return state;
   }

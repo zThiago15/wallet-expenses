@@ -5,7 +5,7 @@ import { actionExpense, fetchCurrencies } from '../actions';
 
 class Wallet extends React.Component {
   state = {
-    value: '',
+    value: 0,
     description: '',
     currency: 'USD',
     method: 'Dinheiro',
@@ -24,26 +24,41 @@ class Wallet extends React.Component {
   }
 
   getRates = async () => {
-    // pegar o valor da API, menos USTD
     const response = await fetch('https://economia.awesomeapi.com.br/json/all');
-    const currencies = Object.entries(await response.json());
+    const currencies = await response.json();
 
-    const newCurrencies = currencies.filter(([currency, info]) => currency !== 'USDT');
-    
-    console.log(newCurrencies);
-    // const rates = newCurrencies.map(([]))
+    // calculate total
+    const total = this.recalculateTotal(currencies);
+
+    return { currencies, total };
   }
 
-  saveExpense = (event) => {
+  recalculateTotal = (exchangeRates) => {
+    const { value, currency } = this.state;
+    const { total } = this.props;
+
+    const rates = Object.entries(exchangeRates);
+
+    // check if currency name is the same as the currency of state, get 'ask' and multiplies with the value of state
+    let newTotal = 0;
+    rates.forEach(([currencyObj, info]) => {
+      if (currencyObj === currency) {
+        newTotal = ((info.ask * value) + total);
+      }
+    });
+
+    return newTotal;
+  }
+
+  saveExpense = async (event) => {
     event.preventDefault();
 
     const { value, description, currency, method, tag } = this.state;
     const { sendExpense, expenses } = this.props;
 
-    // Verificar o tamanho do expense atual, e adicionar +1, que será o id a ser adicionado
     const id = expenses.length === 0 ? 0 : expenses.length;
 
-    const exchangeRates = this.getRates();
+    const { currencies, total } = await this.getRates();
     sendExpense({
       id,
       value,
@@ -51,36 +66,68 @@ class Wallet extends React.Component {
       currency,
       method,
       tag,
+      exchangeRates: currencies,
+    }, total);
+
+    this.cleanState();
+  }
+
+  cleanState = () => {
+    this.setState({
+      value: '',
+      description: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
     });
   }
 
   render() {
-    const { email, currencies } = this.props;
+    const { email, currencies, total } = this.props;
+    const { value, description, currency, method, tag } = this.state;
 
     return (
       <>
         <header>
           <h1 data-testid="email-field">{ email }</h1>
           <span>Despesa total</span>
-          <p data-testid="total-field">0</p>
+          <p data-testid="total-field">{ total.toFixed(2) }</p>
           <p data-testid="header-currency-field">BRL</p>
         </header>
         <form>
           <label htmlFor="value">
             Valor:
-            <input type="number" name="value" id="value" onChange={ this.handleChange } data-testid="value-input" />
+            <input
+              type="number"
+              value={ value }
+              name="value"
+              id="value"
+              onChange={ this.handleChange }
+              data-testid="value-input"
+            />
           </label>
 
           <label htmlFor="description">
             Descrição:
-            <input id="description" name="description" onChange={ this.handleChange } data-testid="description-input" />
+            <input
+              id="description"
+              value={ description }
+              name="description"
+              onChange={ this.handleChange }
+              data-testid="description-input"
+            />
           </label>
 
           <label htmlFor="currency">
             Moeda:
-            <select name="currency" onChange={ this.handleChange } id="currency">
-              { currencies.length > 0 && currencies.map((currency) => (
-                <option key={ currency } value={ currency }>{currency}</option>
+            <select
+              name="currency"
+              value={ currency }
+              onChange={ this.handleChange }
+              id="currency"
+            >
+              { currencies.length > 0 && currencies.map((curr) => (
+                <option key={ curr } value={ curr }>{curr}</option>
               )) }
             </select>
 
@@ -88,7 +135,13 @@ class Wallet extends React.Component {
 
           <label htmlFor="method">
             Método de pagamento:
-            <select name="method" onChange={ this.handleChange } id="method" data-testid="method-input">
+            <select
+              name="method"
+              value={ method }
+              onChange={ this.handleChange }
+              id="method"
+              data-testid="method-input"
+            >
               <option>Dinheiro</option>
               <option>Cartão de crédito</option>
               <option>Cartão de débito</option>
@@ -97,7 +150,13 @@ class Wallet extends React.Component {
 
           <label htmlFor="tag">
             Categoria:
-            <select name="tag" onChange={ this.handleChange } id="tag" data-testid="tag-input">
+            <select
+              name="tag"
+              value={ tag }
+              onChange={ this.handleChange }
+              id="tag"
+              data-testid="tag-input"
+            >
               <option>Alimentação</option>
               <option>Lazer</option>
               <option>Trabalho</option>
@@ -124,11 +183,12 @@ const mapStateToProps = (state) => ({
   email: state.user.email,
   currencies: state.wallet.currencies,
   expenses: state.wallet.expenses,
+  total: state.wallet.total,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   requestAPI: () => dispatch(fetchCurrencies()),
-  sendExpense: (expense) => dispatch(actionExpense(expense)),
+  sendExpense: (expense, total) => dispatch(actionExpense(expense, total)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

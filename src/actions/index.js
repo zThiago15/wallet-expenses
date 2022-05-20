@@ -29,7 +29,8 @@ export function fetchCurrencies() {
   };
 }
 
-export const actionExpense = (expenses) => ({
+export const actionExpense = (expenses, total) => ({
   type: 'USER_EXPENSE',
   expenses,
+  total,
 });
