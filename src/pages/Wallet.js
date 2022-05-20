@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { actionExpense, fetchCurrencies } from '../actions';
 
-const FOOD = 'FOOD';
+const FOOD = 'Alimentação';
 class Wallet extends React.Component {
   constructor() {
     super();
@@ -99,7 +99,7 @@ class Wallet extends React.Component {
           <p
             data-testid="total-field"
           >
-            { total !== undefined ? total.toFixed(2) : null}
+            { total !== undefined ? total.toFixed(2) : 0}
           </p>
           <p data-testid="header-currency-field">BRL</p>
         </header>
