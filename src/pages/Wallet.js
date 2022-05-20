@@ -5,11 +5,11 @@ import { actionExpense, fetchCurrencies } from '../actions';
 
 class Wallet extends React.Component {
   state = {
-    value: 0,
-    description: '',
-    currency: 'USD',
-    method: 'Dinheiro',
-    tag: 'Alimentação',
+    valueState: 0,
+    descState: '',
+    currencyState: 'USD',
+    methodState: 'Dinheiro',
+    tagState: 'Alimentação',
   }
 
   componentDidMount() {
@@ -34,7 +34,7 @@ class Wallet extends React.Component {
   }
 
   recalculateTotal = (exchangeRates) => {
-    const { value, currency } = this.state;
+    const { valueState, currencyState } = this.state;
     const { total } = this.props;
 
     const rates = Object.entries(exchangeRates);
@@ -42,8 +42,8 @@ class Wallet extends React.Component {
     // check if currency name is the same as the currency of state, get 'ask' and multiplies with the value of state
     let newTotal = 0;
     rates.forEach(([currencyObj, info]) => {
-      if (currencyObj === currency) {
-        newTotal = ((info.ask * value) + total);
+      if (currencyObj === currencyState) {
+        newTotal = ((info.ask * valueState) + total);
       }
     });
 
@@ -53,7 +53,7 @@ class Wallet extends React.Component {
   saveExpense = async (event) => {
     event.preventDefault();
 
-    const { value, description, currency, method, tag } = this.state;
+    const { valueState, descState, currencyState, methodState, tagState } = this.state;
     const { sendExpense, expenses } = this.props;
 
     const id = expenses.length === 0 ? 0 : expenses.length;
@@ -61,11 +61,11 @@ class Wallet extends React.Component {
     const { currencies, total } = await this.getRates();
     sendExpense({
       id,
-      value,
-      description,
-      currency,
-      method,
-      tag,
+      value: valueState,
+      description: descState,
+      currency: currencyState,
+      method: methodState,
+      tag: tagState,
       exchangeRates: currencies,
     }, total);
 
@@ -74,57 +74,57 @@ class Wallet extends React.Component {
 
   cleanState = () => {
     this.setState({
-      value: '',
-      description: '',
-      currency: 'USD',
-      method: 'Dinheiro',
-      tag: 'Alimentação',
+      valueState: '',
+      descState: '',
+      currencyState: 'USD',
+      methodState: 'Dinheiro',
+      tagState: 'Alimentação',
     });
   }
 
   render() {
-    const { email, currencies, total } = this.props;
-    const { value, description, currency, method, tag } = this.state;
+    const { email, currencies, total, expenses } = this.props;
+    const { valueState, descState, currencyState, methodState, tagState } = this.state;
 
     return (
       <>
         <header>
           <h1 data-testid="email-field">{ email }</h1>
           <span>Despesa total</span>
-          <p data-testid="total-field">{ total && total.toFixed(2) }</p>
+          <p data-testid="total-field">{ total !== undefined ? total.toFixed(2) : null}</p>
           <p data-testid="header-currency-field">BRL</p>
         </header>
         <form>
-          <label htmlFor="value">
+          <label htmlFor="valueState">
             Valor:
             <input
               type="number"
-              value={ value }
-              name="value"
-              id="value"
+              value={ valueState }
+              name="valueState"
+              id="valueState"
               onChange={ this.handleChange }
               data-testid="value-input"
             />
           </label>
 
-          <label htmlFor="description">
+          <label htmlFor="descState">
             Descrição:
             <input
-              id="description"
-              value={ description }
-              name="description"
+              id="descState"
+              value={ descState }
+              name="descState"
               onChange={ this.handleChange }
               data-testid="description-input"
             />
           </label>
 
-          <label htmlFor="currency">
+          <label htmlFor="currencyState">
             Moeda:
             <select
-              name="currency"
-              value={ currency }
+              name="currencyState"
+              value={ currencyState }
               onChange={ this.handleChange }
-              id="currency"
+              id="currencyState"
             >
               { currencies.length > 0 && currencies.map((curr) => (
                 <option key={ curr } value={ curr }>{curr}</option>
@@ -133,13 +133,13 @@ class Wallet extends React.Component {
 
           </label>
 
-          <label htmlFor="method">
+          <label htmlFor="methodState">
             Método de pagamento:
             <select
-              name="method"
-              value={ method }
+              name="methodState"
+              value={ methodState }
               onChange={ this.handleChange }
-              id="method"
+              id="methodState"
               data-testid="method-input"
             >
               <option>Dinheiro</option>
@@ -148,13 +148,13 @@ class Wallet extends React.Component {
             </select>
           </label>
 
-          <label htmlFor="tag">
+          <label htmlFor="tagState">
             Categoria:
             <select
-              name="tag"
-              value={ tag }
+              name="tagState"
+              value={ tagState }
               onChange={ this.handleChange }
-              id="tag"
+              id="tagState"
               data-testid="tag-input"
             >
               <option>Alimentação</option>
@@ -182,9 +182,28 @@ class Wallet extends React.Component {
               <th>Editar/Excluir</th>
             </tr>
           </thead>
+          <tbody>
+            { expenses.map(({
+              id, description, tag, method, value, currency, exchangeRates,
+            }) => (
+              <tr key={ id }>
+                <td>{ description }</td>
+                <td>{ tag }</td>
+                <td>{ method }</td>
+                <td>{ Number(value).toFixed(2) }</td>
+                <td>{ exchangeRates[currency].name }</td>
+                <td>{ (Number(exchangeRates[currency].ask)).toFixed(2) }</td>
+                <td>{ (value * exchangeRates[currency].ask).toFixed(2) }</td>
+                <td>Real</td>
+                <td>
+                  <button type="button">Editar</button>
+                  <button type="button">Excluir</button>
+                </td>
+              </tr>
+            )) }
+          </tbody>
         </table>
       </>
-
     );
   }
 }
