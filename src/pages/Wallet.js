@@ -3,13 +3,18 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { actionExpense, fetchCurrencies } from '../actions';
 
+const FOOD = 'FOOD';
 class Wallet extends React.Component {
-  state = {
-    valueState: 0,
-    descState: '',
-    currencyState: 'USD',
-    methodState: 'Dinheiro',
-    tagState: 'Alimentação',
+  constructor() {
+    super();
+
+    this.state = {
+      valueState: 0,
+      descState: '',
+      currencyState: 'USD',
+      methodState: 'Dinheiro',
+      tagState: FOOD,
+    };
   }
 
   componentDidMount() {
@@ -78,7 +83,7 @@ class Wallet extends React.Component {
       descState: '',
       currencyState: 'USD',
       methodState: 'Dinheiro',
-      tagState: 'Alimentação',
+      tagState: FOOD,
     });
   }
 
@@ -91,7 +96,11 @@ class Wallet extends React.Component {
         <header>
           <h1 data-testid="email-field">{ email }</h1>
           <span>Despesa total</span>
-          <p data-testid="total-field">{ total !== undefined ? total.toFixed(2) : null}</p>
+          <p
+            data-testid="total-field"
+          >
+            { total !== undefined ? total.toFixed(2) : null}
+          </p>
           <p data-testid="header-currency-field">BRL</p>
         </header>
         <form>
@@ -157,7 +166,7 @@ class Wallet extends React.Component {
               id="tagState"
               data-testid="tag-input"
             >
-              <option>Alimentação</option>
+              <option>{ FOOD }</option>
               <option>Lazer</option>
               <option>Trabalho</option>
               <option>Transporte</option>
