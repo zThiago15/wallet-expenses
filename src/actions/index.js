@@ -34,3 +34,9 @@ export const actionExpense = (expenses, total) => ({
   expenses,
   total,
 });
+
+export const saveExpenses = (expenses, total) => ({
+  type: 'USER_DELETING_EXPENSE',
+  expenses,
+  total,
+});

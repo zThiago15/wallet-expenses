@@ -17,6 +17,12 @@ const walletReducer = (state = initialState, action) => {
       ...state,
       expenses: [...state.expenses, action.expenses],
       total: Number(action.total) };
+  case 'USER_DELETING_EXPENSE':
+    return {
+      ...state,
+      expenses: [...action.expenses],
+      total: Number(action.total),
+    };
   default:
     return state;
   }
