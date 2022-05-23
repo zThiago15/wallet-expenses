@@ -3,7 +3,6 @@
 const initialState = {
   currencies: [],
   expenses: [],
-  total: 0,
 };
 
 const walletReducer = (state = initialState, action) => {
@@ -15,14 +14,11 @@ const walletReducer = (state = initialState, action) => {
   case 'USER_EXPENSE':
     return {
       ...state,
-      expenses: [...state.expenses, action.expenses],
-      total: Number(action.total) };
-  case 'USER_DELETING_EXPENSE':
+      expenses: [...state.expenses, action.expenses] };
+  case 'USER_UPDATE_EXPENSE':
     return {
       ...state,
-      expenses: [...action.expenses],
-      total: Number(action.total),
-    };
+      expenses: [...action.expenses] };
   default:
     return state;
   }

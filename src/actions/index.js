@@ -29,14 +29,12 @@ export function fetchCurrencies() {
   };
 }
 
-export const actionExpense = (expenses, total) => ({
+export const actionExpense = (expenses) => ({
   type: 'USER_EXPENSE',
   expenses,
-  total,
 });
 
-export const saveExpenses = (expenses, total) => ({
-  type: 'USER_DELETING_EXPENSE',
+export const updateExpenses = (expenses) => ({
+  type: 'USER_UPDATE_EXPENSE',
   expenses,
-  total,
 });
