@@ -257,7 +257,8 @@ class Wallet extends React.Component {
                   <button
                     type="button"
                     data-testid="edit-btn"
-                    onClick={ () => this.showDataOnForm(value, description, currency, method, tag, id) }
+                    onClick={ () => this.showDataOnForm(value, description,
+                      currency, method, tag, id) }
                   >
                     Editar
                   </button>
