@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { actionExpense, fetchCurrencies, updateExpenses } from '../actions';
+import FormExpense from './FormExpense';
 
 const FOOD = 'Alimentação';
 class Wallet extends React.Component {
@@ -62,7 +63,7 @@ class Wallet extends React.Component {
             currency: currencyState,
             method: methodState,
             tag: tagState,
-            exchangeRates: currencies,
+            exchangeRates: expense.exchangeRates,
           };
         }
       });
@@ -111,7 +112,7 @@ class Wallet extends React.Component {
     updateExpense(removingExpense);
   }
 
-  showDataOnForm = (value, description, currency, method, tag, id) => {
+  showDataOnForm = ({ value, description, currency, method, tag, id }) => {
     this.setState({
       valueState: value,
       descState: description,
@@ -136,96 +137,19 @@ class Wallet extends React.Component {
 
     return (
       <>
-        <header>
-          <h1 data-testid="email-field">{ email }</h1>
-          <span>Despesa total</span>
-          <p
-            data-testid="total-field"
-          >
-            { newTotal.toFixed(2)}
-          </p>
-          <p data-testid="header-currency-field">BRL</p>
-        </header>
-        <form>
-          <label htmlFor="valueState">
-            Valor:
-            <input
-              type="number"
-              value={ valueState }
-              name="valueState"
-              id="valueState"
-              onChange={ this.handleChange }
-              data-testid="value-input"
-            />
-          </label>
-
-          <label htmlFor="descState">
-            Descrição:
-            <input
-              id="descState"
-              value={ descState }
-              name="descState"
-              onChange={ this.handleChange }
-              data-testid="description-input"
-            />
-          </label>
-
-          <label htmlFor="currencyState">
-            Moeda:
-            <select
-              name="currencyState"
-              value={ currencyState }
-              onChange={ this.handleChange }
-              id="currencyState"
-              data-testid="currency-input"
-            >
-              { currencies.length > 0 && currencies.map((curr) => (
-                <option key={ curr } value={ curr }>{curr}</option>
-              )) }
-            </select>
-
-          </label>
-
-          <label htmlFor="methodState">
-            Método de pagamento:
-            <select
-              name="methodState"
-              value={ methodState }
-              onChange={ this.handleChange }
-              id="methodState"
-              data-testid="method-input"
-            >
-              <option>Dinheiro</option>
-              <option>Cartão de crédito</option>
-              <option>Cartão de débito</option>
-            </select>
-          </label>
-
-          <label htmlFor="tagState">
-            Categoria:
-            <select
-              name="tagState"
-              value={ tagState }
-              onChange={ this.handleChange }
-              id="tagState"
-              data-testid="tag-input"
-            >
-              <option>{ FOOD }</option>
-              <option>Lazer</option>
-              <option>Trabalho</option>
-              <option>Transporte</option>
-              <option>Saúde</option>
-            </select>
-          </label>
-
-          <button
-            type="submit"
-            onClick={ this.saveExpense }
-          >
-            { !editExpense ? 'Adicionar despesa' : 'Editar despesa' }
-          </button>
-        </form>
-
+        <FormExpense
+          valueState={ valueState }
+          descState={ descState }
+          currencyState={ currencyState }
+          method={ methodState }
+          tagState={ tagState }
+          editExpense={ editExpense }
+          email={ email }
+          currencies={ currencies }
+          total={ newTotal }
+          handleChange={ this.handleChange }
+          saveExpense={ this.saveExpense }
+        />
         <table>
           <thead>
             <tr>
@@ -257,8 +181,12 @@ class Wallet extends React.Component {
                   <button
                     type="button"
                     data-testid="edit-btn"
-                    onClick={ () => this.showDataOnForm(value, description,
-                      currency, method, tag, id) }
+                    onClick={ () => this.showDataOnForm({ value,
+                      description,
+                      currency,
+                      method,
+                      tag,
+                      id }) }
                   >
                     Editar
                   </button>

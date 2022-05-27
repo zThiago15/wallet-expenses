@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { actionEmail } from '../actions';
 import walletIcon from '../images/wallet-icon.png';
-import '../css/Loading.css';
+import '../css/Login.css';
 
 class Login extends React.Component {
   state = {
