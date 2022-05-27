@@ -9,8 +9,8 @@ html {
 }
 
 body {
-  align-items: center;
   align-content: center;
+  align-items: center;
   border: 1px solid blue;
   display: flex;
   height: 100%;
@@ -21,10 +21,10 @@ body {
   border: 1px solid red;
   border-radius: 1em;
   color: #444d66;
-  width: 100%;
-  padding: 15px;
   display: flex;
   flex-direction: column;
+  padding: 15px;
+  width: 100%;
 }
 
 .heading-login {
