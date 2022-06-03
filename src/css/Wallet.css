@@ -1,0 +1,30 @@
+header {
+  background-color: #333538;
+  color: #fffffe;
+  padding: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  width: 1200px;
+  margin: 10px auto;
+  border-radius: 2em;
+}
+
+.containerForm {
+  background-color: #fffffe;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: 500px;
+  margin: 20px auto;
+  line-height: 3em;
+}
+
+.header-info {
+  font-size: 20px;
+  text-align: center;
+}
+
+button[ type = 'submit' ] {
+  margin: 20px auto;
+}

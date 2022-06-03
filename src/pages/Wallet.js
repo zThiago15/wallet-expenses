@@ -137,6 +137,7 @@ class Wallet extends React.Component {
 
     return (
       <>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossOrigin="anonymous" />
         <FormExpense
           valueState={ valueState }
           descState={ descState }
@@ -150,7 +151,7 @@ class Wallet extends React.Component {
           handleChange={ this.handleChange }
           saveExpense={ this.saveExpense }
         />
-        <table>
+        <table className="table table-dark table-striped">
           <thead>
             <tr>
               <th>Descrição</th>
@@ -187,6 +188,7 @@ class Wallet extends React.Component {
                       method,
                       tag,
                       id }) }
+                    className="btn btn-warning"
                   >
                     Editar
                   </button>
@@ -194,6 +196,7 @@ class Wallet extends React.Component {
                     type="button"
                     data-testid="delete-btn"
                     onClick={ this.deleteExpense }
+                    className="btn btn-danger"
                   >
                     Excluir
                   </button>

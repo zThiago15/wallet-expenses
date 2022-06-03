@@ -40,35 +40,41 @@ class Login extends React.Component {
           <img src={ walletIcon } alt="Logo de carteira" />
         </div>
 
-        <label htmlFor="email">
-          E-mail
-          <input
-            data-testid="email-input"
-            type="email"
-            id="email"
-            name="email"
-            onChange={ this.handleChange }
-          />
-        </label>
+        <div className="container-form">
+          <label htmlFor="email">
+            <h2>E-mail</h2>
+            <input
+              data-testid="email-input"
+              type="email"
+              id="email"
+              name="email"
+              onChange={ this.handleChange }
+              placeholder="Insira um e-mail válido"
+            />
+          </label>
 
-        <label htmlFor="password">
-          Senha
-          <input
-            data-testid="password-input"
-            type="password"
-            id="password"
-            name="password"
-            onChange={ this.handleChange }
-          />
-        </label>
+          <label htmlFor="password">
+            <h2>Senha</h2>
+            <input
+              data-testid="password-input"
+              type="password"
+              id="password"
+              name="password"
+              onChange={ this.handleChange }
+              placeholder="Mínimo de 6 caracteres"
+            />
+          </label>
 
-        <button
-          type="button"
-          disabled={ this.validation() }
-          onClick={ () => { emailDispatch(email); return history.push('/carteira'); } }
-        >
-          Entrar
-        </button>
+          <button
+            type="button"
+            disabled={ this.validation() }
+            onClick={ () => { emailDispatch(email); return history.push('/carteira'); } }
+            id="btn-login"
+          >
+            Entrar
+          </button>
+        </div>
+
       </div>
     );
   }

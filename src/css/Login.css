@@ -4,33 +4,70 @@
   padding: 0;
 }
 
-html {
-  height: 100%;
-}
-
 body {
-  align-content: center;
-  align-items: center;
-  border: 1px solid blue;
-  display: flex;
-  height: 100%;
-  justify-content: center;
+  background-image: url('../images//finances-bg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .main-container {
-  border: 1px solid red;
   border-radius: 1em;
-  color: #444d66;
+  color: #010101;
+  padding: 15px;
+  width: 30%;
+  height: 300px;
+
+  margin: 30vh auto;
   display: flex;
   flex-direction: column;
-  padding: 15px;
-  width: 100%;
+  justify-content: space-around;
+  background-color: #fffffe;
 }
 
 .heading-login {
   display: flex;
+  justify-content: center;
 }
 
 img {
   width: 50px;
+}
+
+h2 {
+  font-size: large;
+}
+
+/* content */
+.container-form {
+  line-height: 2em;
+}
+
+input {
+  padding: 12px 20px;
+  width: 100%;
+}
+
+button {
+  background-color: #444d66;
+  border: none;
+  color: white;
+  padding: 20px 14px;
+  margin: 8px auto;
+  cursor: pointer;
+  transition: 0.8;
+  width: 50%;
+  border-radius: 10px;
+}
+
+button:hover {
+  background-color: #393f50;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+#btn-login {
+  margin: 10px auto;
+  margin-left: 110px;
 }
